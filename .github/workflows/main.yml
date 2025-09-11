@@ -1,0 +1,35 @@
+name: Deploy Portfolios
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-new:
+    name: Deploy New Portfolio
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+      - name: Deploy New Portfolio
+        run: netlify deploy --dir=new-portfolio --prod --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID_NEW
+
+  deploy-old:
+    name: Deploy Old Portfolio
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+      - name: Deploy Old Portfolio
+        run: netlify deploy --dir=old-portfolio --prod --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID_OLD
